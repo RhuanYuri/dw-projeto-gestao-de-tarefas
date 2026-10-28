@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aplicação de gerenciamento de tarefas com categorias, prioridades, prazos e alertas visuais. Projeto da disciplina DSW - UFMA.">
+  <title>Organizador de Tarefas | DSW UFMA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="container header-container">
+      <div class="logo-area">
+        <span class="logo-icon" aria-hidden="true">✓</span>
+        <div>
+          <h1 class="app-title">TaskAlert</h1>
+          <p class="app-subtitle">Organizador de tarefas com alertas e prazos</p>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span>Trilha C · Sem API</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main container">
+    <!-- Formulário de cadastro de tarefas -->
+    <section class="card form-section" aria-labelledby="form-heading">
+      <h2 id="form-heading" class="section-title">Cadastrar Nova Tarefa</h2>
+      <p class="section-description">Preencha todos os campos abaixo para registrar sua atividade com prioridade e prazo.</p>
+
+      <form id="task-form" novalidate>
+        <div class="form-group">
+          <label for="task-name" class="form-label">Nome da tarefa <span class="required" aria-hidden="true">*</span></label>
+          <input
+            type="text"
+            id="task-name"
+            name="taskName"
+            class="form-input"
+            placeholder="Ex: Estudar para a prova de programação"
+            autocomplete="off"
+            required
+          >
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="task-category" class="form-label">Categoria <span class="required" aria-hidden="true">*</span></label>
+            <select id="task-category" name="taskCategory" class="form-select" required>
+              <option value="">Selecione uma categoria</option>
+              <option value="Estudos">Estudos</option>
+              <option value="Trabalho">Trabalho</option>
+              <option value="Atividades Domésticas">Atividades Domésticas</option>
+              <option value="Pessoal">Pessoal</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="task-deadline" class="form-label">Prazo limite <span class="required" aria-hidden="true">*</span></label>
+            <input
+              type="date"
+              id="task-deadline"
+              name="taskDeadline"
+              class="form-input"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="task-priority" class="form-label">Prioridade <span class="required" aria-hidden="true">*</span></label>
+            <select id="task-priority" name="taskPriority" class="form-select" required>
+              <option value="">Selecione a prioridade</option>
+              <option value="Baixa">Baixa</option>
+              <option value="Média">Média</option>
+              <option value="Alta">Alta</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="btn-add-task" class="btn btn-primary">
+            <span class="btn-icon" aria-hidden="true">+</span>
+            Adicionar tarefa
+          </button>
+        </div>
+
+        <!-- Área de mensagens e validação (acessível via aria-live) -->
+        <div id="form-feedback" class="feedback-message" role="alert" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <!-- Área de resultados e lista de tarefas -->
+    <section class="card list-section" aria-labelledby="list-heading">
+      <div class="list-header">
+        <div>
+          <h2 id="list-heading" class="section-title">Tarefas Cadastradas</h2>
+          <p class="section-description">Acompanhe suas tarefas, prazos e alertas em tempo real.</p>
+        </div>
+        <div class="status-summary">
+          <span id="tasks-counter" class="counter-badge">0 tarefas</span>
+        </div>
+      </div>
+
+      <!-- Barra de filtros -->
+      <div class="filters-bar">
+        <div class="filter-item">
+          <label for="filter-category" class="filter-label">Filtrar por categoria:</label>
+          <select id="filter-category" class="form-select select-sm">
+            <option value="todas">Todas as categorias</option>
+            <option value="Estudos">Estudos</option>
+            <option value="Trabalho">Trabalho</option>
+            <option value="Atividades Domésticas">Atividades Domésticas</option>
+            <option value="Pessoal">Pessoal</option>
+          </select>
+        </div>
+
+        <div class="filter-item">
+          <label for="filter-status" class="filter-label">Status:</label>
+          <select id="filter-status" class="form-select select-sm">
+            <option value="todas">Todas</option>
+            <option value="pendentes">Pendentes</option>
+            <option value="concluidas">Concluídas</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Lista de tarefas -->
+      <ul id="task-list" class="task-list" aria-label="Lista de tarefas cadastradas"></ul>
+
+      <!-- Mensagem quando a lista estiver vazia -->
+      <div id="empty-state" class="empty-state">
+        <p class="empty-state-title">Nenhuma tarefa encontrada</p>
+        <p class="empty-state-subtitle">Preencha o formulário acima para adicionar uma nova tarefa.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container footer-container">
+      <p>Desenvolvimento de Sistemas Web (EECP0036) · UFMA 2026.2</p>
+      <p>Aluno: <strong>Rhuã Yuri N. Sardinha</strong> · Matrícula: <strong>20260060198</strong></p>
+      <p class="footer-note">Aplicação desenvolvida em HTML, CSS e JavaScript puros (sem frameworks).</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
