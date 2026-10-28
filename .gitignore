@@ -1,0 +1,9 @@
+# Arquivos de sistema e temporários
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+
+# Ambientes e chaves (conforme diretrizes do edital)
+config.js
+.env
